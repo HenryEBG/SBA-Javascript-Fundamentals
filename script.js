@@ -80,7 +80,14 @@ function getLearnerData(course, ag, submissions) {
   // here, we would process this data to achieve the desired result.
 
   // buscar los diferentes id de estudiantes en submissions
-  
+  let learnerArray=[]
+  submissions.forEach(element => {
+    if(learnerArray.indexOf(element.learner_id)===-1){
+      learnerArray.push(element.learner_id)
+    }   
+  });
+
+console.log(learnerArray)  
   // recorrer para cada estudiante el proceso
 
   // agregar el codigo del estudiante al objeto como id.
