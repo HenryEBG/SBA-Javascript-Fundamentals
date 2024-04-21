@@ -44,6 +44,14 @@ const LearnerSubmissions = [
   },
   {
     learner_id: 125,
+    assignment_id: 1,
+    submission: {
+      submitted_at: "2023-01-25",
+      score: 48
+    }
+  }, 
+  {
+    learner_id: 125,
     assignment_id: 2,
     submission: {
       submitted_at: "2023-02-12",
@@ -77,78 +85,104 @@ const LearnerSubmissions = [
 ];
 
 function getLearnerData(course, ag, submissions) {
+
+
+
   // here, we would process this data to achieve the desired result.
-
-  // buscar los diferentes id de estudiantes en submissions
-  let learnerArray=[]
-  let result=[]
-  submissions.forEach(element => {
-    if(learnerArray.indexOf(element.learner_id)===-1){
-      learnerArray.push(element.learner_id)
-    }   
-  });
+  // Array to return the desired result of the process
+  let result = []
+  
 
 
-  // recorrer para cada estudiante el proceso
+  function searchLearner(learnerID){
+    let founded=false;
     let i=0
-    let j=0
-    let founded=0
-    while(i< learnerArray.length){
-      result[i]={}
-      result[i].id=learnerArray[i]
-      submissions.forEach(element => {
-        if(learnerArray[i] === element.learner_id){         
-          while(j<ag.assignments.length){           
-            if(console.log(new Date(ag.assignments[j].due_at)<new Date())){
-                learnerArray[i]
-            }
-            // const miCumpleanios = '1988-08-21';
-            // const fechaCreada = new Date(miCumpleanios);
-            // console.log(fechaCreada)
-            //const fechaFormateada = fechaCreada.toLocaleDateString('es-BO', {  timeZone: 'UTC',});
-            j++        
-          }
-          
-          //ag[0].assignments.find(element)
+    while(!founded && i<result.length){
+      if(result[i].id===learnerID){
+        founded=true
+      }
+      else{i++}
+    }
+    if(!founded){
+      return -1
+    } else {
+      return i
+    }
+  }
+
+    //search an assignment
+    function searchAssigment(assignments,assignmetId){
+      let founded=false;
+      let i=0
+      while(!founded && i<assignments.length)
+      { 
+        if(assignments[i].id===assignmetId){
+          founded=true
+        }else {i++}
+      }
+      if(!founded){
+        return -1
+      } else{
+        return i
+      }
+  }
+
+  for(i=0;i<submissions.length;i++){
+    //buscar si ya esta el estudiante.  Si no esta se agrega sino se toma el index en el arreglo
+    let resultIndex=searchLearner(submissions[i].learner_id)
+    if(resultIndex===-1){
+      result.push({id:submissions[i].learner_id,avg:0})
+      resultIndex=result.length-1
+    }
+
+    //meter una funcion que busque el assigment en la base de assigments
+
+    let position = searchAssigment(ag.assignments,submissions[i].assignment_id)
+    if(position>=0){
+      //ver si la fecha es menor a la fecha actual
+      if (new Date(ag.assignments[position].due_at) < new Date()){
+        console.log(`la tarea existe y ya se vencio`)
+        //buscar si existe el assigment en el resultado si es asi
+        //restar el valor del avg y agrgar el nuevo valor
+        console.log(ag.assignments[position].id)
+        if(typeof(result[resultIndex][ag.assignments[position].id])!=='undefined')
+        {
+          console.log(`existe la asignacion`)
+          //restar el valor actual al avg
+          //  console.log(result[resultIndex].avg)
+          //  console.log(result[resultIndex][ag.assignments[position].id])
+          result[resultIndex].avg-=result[resultIndex][ag.assignments[position].id]
+          result[resultIndex][submissions[i].assignment_id]=submissions[i].submission.score
+          result[resultIndex].avg+=submissions[i].submission.score          
         }
-
-        // else{
-        //   console.log(learnerArray[i].id)
-        // }
-
-        //console.log(`no pasa nada`)
-
-      });
+        else{
+          console.log(`no existe la asignacion`)
+          result[resultIndex][submissions[i].assignment_id]=submissions[i].submission.score
+          result[resultIndex].avg+=submissions[i].submission.score
+        }
+        
+      }
+      else{
+        continue
+      }
 
       
-      //eliminar de las submissiones aquellas que no esten vencidas
-
-      i++
     }
-  // agregar el codigo del estudiante al objeto como id. check
-  // por cada estudiante procesar todas las asignaciones que ya se hayan vencido
-  // si la tarea esta vencida restarle a su nota el 10% del valor 
-  // sumar la nota a un total
-  // sumar la nota maxima a otro total
-  // calcular el porcentaje de la materia dividiendo la nota recibida(con el descuento) entre el total
-  // asignar el resultado como un atributo del objeto donde la llave es el assigment_id
-  // la suma de las notas totales / entre la nota maxima total y guardarla como el atributo avg
-  // empujar el objeto al array result.
+      
+  }
+  // // Search different learners with a submission and add the id at learnearArray
+  // submissions.forEach(element => {
+  //   //buscar en ag el assigment que corresponda
+  //   ag.assigments.search(findAssigment)
 
-  // const result = [
-  //   {
-  //     id: 125,
-  //     avg: 0.985, // (47 + 150) / (50 + 150)
-  //     1: 0.94, // 47 / 50
-  //     2: 1.0 // 150 / 150
-  //   },
-  //   {
-  //     id: 132,
-  //     avg: 0.82, // (39 + 125) / (50 + 150)
-  //     1: 0.78, // 39 / 50
-  //     2: 0.833 // late: (140 - 15) / 150
+  //   function findAssigment(assigment) {
+  //     if (assigment.id === element.assignment_id) {
+  //       console.log(`yes of course`)
+  //     }
   //   }
-  // ];
+
+  // }
+  // )
 
   return result;
 }
