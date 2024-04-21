@@ -14,7 +14,7 @@ const AssignmentGroup = {
     {
       id: 1,
       name: "Declare a Variable",
-      due_at: "2023-01-25",
+      due_at: "2023-01-24",
       points_possible: 50
     },
     {
@@ -91,7 +91,7 @@ function getLearnerData(course, ag, submissions) {
   // here, we would process this data to achieve the desired result.
   // Array to return the desired result of the process
   let result = []
-  
+  let discount=0
 
 
   function searchLearner(learnerID){
@@ -128,6 +128,7 @@ function getLearnerData(course, ag, submissions) {
   }
 
   for(i=0;i<submissions.length;i++){
+    discount=0
     //buscar si ya esta el estudiante.  Si no esta se agrega sino se toma el index en el arreglo
     let resultIndex=searchLearner(submissions[i].learner_id)
     if(resultIndex===-1){
@@ -151,14 +152,27 @@ function getLearnerData(course, ag, submissions) {
           //restar el valor actual al avg
           //  console.log(result[resultIndex].avg)
           //  console.log(result[resultIndex][ag.assignments[position].id])
-          result[resultIndex].avg-=result[resultIndex][ag.assignments[position].id]
-          result[resultIndex][submissions[i].assignment_id]=submissions[i].submission.score
-          result[resultIndex].avg+=submissions[i].submission.score          
+          result[resultIndex].avg-=result[resultIndex][ag.assignments[position].id][0]
+          if(new Date(ag.assignments[position].due_at)<new Date(submissions[i].submission.submitted_at))
+          {
+            discount=ag.assignments[position].points_possible*.1
+          }
+          result[resultIndex][submissions[i].assignment_id]=[submissions[i].submission.score-discount,ag.assignments[position].points_possible]
+          result[resultIndex].avg+=(submissions[i].submission.score-discount)          
         }
         else{
           console.log(`no existe la asignacion`)
-          result[resultIndex][submissions[i].assignment_id]=submissions[i].submission.score
-          result[resultIndex].avg+=submissions[i].submission.score
+          //validar la fecha due_at con la fecha de envio
+          console.log(ag.assignments[position].due_at)
+          console.log(submissions[i].submission.submitted_at)
+          if(new Date(ag.assignments[position].due_at)<new Date(submissions[i].submission.submitted_at))
+          { 
+            discount=ag.assignments[position].points_possible*.1
+            console.log("el descuento es de "+discount)
+          }
+          result[resultIndex][submissions[i].assignment_id]=[submissions[i].submission.score-discount,ag.assignments[position].points_possible]         
+
+          result[resultIndex].avg+=(submissions[i].submission.score-discount)
         }
         
       }
