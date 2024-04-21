@@ -91,12 +91,41 @@ function getLearnerData(course, ag, submissions) {
 
   // recorrer para cada estudiante el proceso
     let i=0
+    let j=0
+    let founded=0
     while(i< learnerArray.length){
       result[i]={}
       result[i].id=learnerArray[i]
+      submissions.forEach(element => {
+        if(learnerArray[i] === element.learner_id){         
+          while(j<ag.assignments.length){           
+            if(console.log(new Date(ag.assignments[j].due_at)<new Date())){
+                learnerArray[i]
+            }
+            // const miCumpleanios = '1988-08-21';
+            // const fechaCreada = new Date(miCumpleanios);
+            // console.log(fechaCreada)
+            //const fechaFormateada = fechaCreada.toLocaleDateString('es-BO', {  timeZone: 'UTC',});
+            j++        
+          }
+          
+          //ag[0].assignments.find(element)
+        }
+
+        // else{
+        //   console.log(learnerArray[i].id)
+        // }
+
+        //console.log(`no pasa nada`)
+
+      });
+
+      
+      //eliminar de las submissiones aquellas que no esten vencidas
+
       i++
     }
-  // agregar el codigo del estudiante al objeto como id.
+  // agregar el codigo del estudiante al objeto como id. check
   // por cada estudiante procesar todas las asignaciones que ya se hayan vencido
   // si la tarea esta vencida restarle a su nota el 10% del valor 
   // sumar la nota a un total
