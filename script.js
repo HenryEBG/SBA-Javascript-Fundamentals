@@ -81,15 +81,21 @@ function getLearnerData(course, ag, submissions) {
 
   // buscar los diferentes id de estudiantes en submissions
   let learnerArray=[]
+  let result=[]
   submissions.forEach(element => {
     if(learnerArray.indexOf(element.learner_id)===-1){
       learnerArray.push(element.learner_id)
     }   
   });
 
-console.log(learnerArray)  
-  // recorrer para cada estudiante el proceso
 
+  // recorrer para cada estudiante el proceso
+    let i=0
+    while(i< learnerArray.length){
+      result[i]={}
+      result[i].id=learnerArray[i]
+      i++
+    }
   // agregar el codigo del estudiante al objeto como id.
   // por cada estudiante procesar todas las asignaciones que ya se hayan vencido
   // si la tarea esta vencida restarle a su nota el 10% del valor 
@@ -100,20 +106,20 @@ console.log(learnerArray)
   // la suma de las notas totales / entre la nota maxima total y guardarla como el atributo avg
   // empujar el objeto al array result.
 
-  const result = [
-    {
-      id: 125,
-      avg: 0.985, // (47 + 150) / (50 + 150)
-      1: 0.94, // 47 / 50
-      2: 1.0 // 150 / 150
-    },
-    {
-      id: 132,
-      avg: 0.82, // (39 + 125) / (50 + 150)
-      1: 0.78, // 39 / 50
-      2: 0.833 // late: (140 - 15) / 150
-    }
-  ];
+  // const result = [
+  //   {
+  //     id: 125,
+  //     avg: 0.985, // (47 + 150) / (50 + 150)
+  //     1: 0.94, // 47 / 50
+  //     2: 1.0 // 150 / 150
+  //   },
+  //   {
+  //     id: 132,
+  //     avg: 0.82, // (39 + 125) / (50 + 150)
+  //     1: 0.78, // 39 / 50
+  //     2: 0.833 // late: (140 - 15) / 150
+  //   }
+  // ];
 
   return result;
 }
