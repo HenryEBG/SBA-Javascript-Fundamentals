@@ -14,8 +14,8 @@ const AssignmentGroup = {
     {
       id: 1,
       name: "Declare a Variable",
-      due_at: "2023-01-24",
-      points_possible: 50
+      due_at: "2023-01-23",
+      points_possible: 0
     },
     {
       id: 2,
@@ -131,6 +131,19 @@ function getLearnerData(course, ag, submissions) {
     }
   }
 
+  //function that save the score to the result with the discount
+  //of 10% if the submission date is after assigment date
+  function discountF(assigment,submission,index){
+    let discount=0
+    if (new Date(assigment.due_at) < new Date(submission.submission.submitted_at)) {
+      discount =assigment.points_possible * .1
+    }
+    result[index][submission.assignment_id] = [submission.submission.score - discount, assigment.points_possible]
+    result[index].avg += (submission.submission.score - discount)  
+  }
+
+
+
   for (i = 0; i < submissions.length; i++) {
     let discount = 0
     //use the funtion to search a learner in the result array
@@ -149,46 +162,48 @@ function getLearnerData(course, ag, submissions) {
    
     //if the assigment exists begin the process to add the info to the result array
     // and validate that the date of DUE is before the actual date 
+   
     if (position >= 0 && new Date(ag.assignments[position].due_at) < new Date()) {
-      //compare if the object in the actual position has an atribute for the actual
-      //assigment
-
+      //compare if the object in the actual position has an atribute 
+      //for the actual assigment
       if (typeof (result[resultIndex][ag.assignments[position].id]) !== 'undefined') {
-        //restar el valor actual al avg
         result[resultIndex].avg -= result[resultIndex][ag.assignments[position].id][0]
-        if (new Date(ag.assignments[position].due_at) < new Date(submissions[i].submission.submitted_at)) {
-          discount = ag.assignments[position].points_possible * .1
-        }
-        result[resultIndex][submissions[i].assignment_id] = [submissions[i].submission.score - discount, ag.assignments[position].points_possible]
-        result[resultIndex].avg += (submissions[i].submission.score - discount)
       }
-      else {
-        //validar la fecha due_at con la fecha de envio
-        if (new Date(ag.assignments[position].due_at) < new Date(submissions[i].submission.submitted_at)) {
-          discount = ag.assignments[position].points_possible * .1
-        }
-        result[resultIndex][submissions[i].assignment_id] = [submissions[i].submission.score - discount, ag.assignments[position].points_possible]
-
-        result[resultIndex].avg += (submissions[i].submission.score - discount)
-      }
-
+      
+      discountF(ag.assignments[position],submissions[i],resultIndex)
     }
   }
 
 
-  //hacer los promedios y eliminar los arreglos reemplazandolos por el valor
+  //for each element of the result calculate the average by assigment
+  //calculates the average to the total
   result.forEach(calculateAverage)
 
   function calculateAverage(item) {
+    //initialize total
     let total = 0
     for (let prop in item) {
       if (typeof (item[prop]) === 'object') {
         total += item[prop][1]
-        item[prop] = item[prop][0] / item[prop][1]
+        try{
+          if(item[prop][1]===0){
+            throw new Error('Error cant be divided by 0')
+          }else {
+            item[prop] = item[prop][0] / item[prop][1]
+          }
+        }catch(e){
+          console.log(e)
+          item[prop]=0
+        }
       }
 
     }
-    item.avg = item.avg / total
+    try{
+      item.avg = item.avg / total
+    }catch(e) {
+      console.log(e)
+
+    }
   }
 
   return result;
