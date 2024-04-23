@@ -1,5 +1,5 @@
 # SBA Assignment Javscript-Fundamentals
-## Workin with objects, arrays, loops, statenebts and try/catch functions
+## Working with objects, arrays, loops, statenebts and try/catch functions
 ### Henry Berganza Guevara
 This SBA let me use or my fundamental knowledge of Javascript to  solve
 a real problem.  
@@ -98,50 +98,15 @@ const LearnerSubmissions = [
 - Include a README file
 
 
+## Reflections
+What could you have done differently during the planning stages of your project to make the execution easier?
+- For me it will be to plan all the problem with the inputs with try/catch.  After finished it turns more difficult to see them or to change it.
 
+Were thre any requirements that were difficult to implement? What do you thik would make them easier to implement in future projects?
+- Requirements as switch and continue/break because with my logic I didn't a good place to add this options.
 
+What would you add to, or change about your application if given more time?
+- Try/catch to made the application without errors when the data is out of place, ej. using different format, different type or gives a not a valid output like divided by 0
 
-
-
-For now I'm begining to figure out what parts are important to include.  
-
-For this SBA Asigment I explain where to find any of the requirements
-
-## HTML Requirements
-- #### Three pages
-    - Login.html
-    - register.html
-    - main.html
-- #### Grid apply with bootstrap 5
-- #### html tags
-    - img
-    - a
-    - input
-    - div
-    - form
-    - select
-    - table
-    - th
-    - td
-    - tr
-    - iframe
-- #### 2 tables included in page main.html
-- #### Forms included in index.html and register.html
-- #### Dropdowns included in index.html and register.html
--  #### Text, images and gifs included in main.html
-
-## CSS Requirements
--  #### Inline, internal and external styling
-    - Inline included  index.html line 33
-    - Internal included index.html line 16
-    - external included index.css line 8 and 9
--  #### Include 5 selectors
-    - tag selector index.html line 17
-    - Class selector ColorSquema.css
-    - id selector index.css
-    - seudoclass selector index.css
-    - Seudoselector main.css 
--  #### Include colors
-    - Colors applied in ColorSquema.css 
--  #### Bootstrap grid
-    - Bootstrap grid added to main.css and register.css
+-To my future me. 
+- Think always that te input it will be not correct and you have to think in all possible mistakes and give solution before it happens.

@@ -38,7 +38,7 @@ const LearnerSubmissions = [
     learner_id: 125,
     assignment_id: 1,
     submission: {
-      submitted_at: "2024-01-25",
+      submitted_at: "2023-01-25",
       score: 47
     }
   },
