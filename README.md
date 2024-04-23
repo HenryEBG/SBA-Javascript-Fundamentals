@@ -85,6 +85,21 @@ const LearnerSubmissions = [
   }
 ];
 
+## Requirements
+- Use try/catch statements
+- Utilize different type of loops
+- Utilize at least one loop control keyword such a break or continue
+- Create and/or manupulate arrays and objects
+- Demonstrate retrieval, manipulation and removal of items in an array or properties in an object
+- Use functions to handle repeated tasks
+- Program outputs processed data as described
+- Ensure that te program runs without errors
+- Commit frequently to the git repository
+- Include a README file
+
+
+
+
 
 
 
